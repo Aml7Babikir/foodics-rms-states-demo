@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foodics RMS — Subscription Lifecycle States</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">F</span>
+      <span class="brand-name">Foodics RMS</span>
+      <span class="brand-sub">Subscription Lifecycle States — Demo</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="controls">
+      <div class="control-group">
+        <h3>Experience</h3>
+        <div class="seg" id="area-seg">
+          <button class="seg-btn active" data-area="cashier">Cashier (POS)</button>
+          <button class="seg-btn" data-area="console">Console (Owner)</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <h3>Subscription state</h3>
+        <div class="state-list" id="state-list">
+          <button class="state-item active" data-state="pre-notification">
+            <span class="dot dot-blue"></span>
+            <span class="state-text">
+              <strong>Pre-notification</strong>
+              <small>Full access, no warnings</small>
+            </span>
+          </button>
+          <button class="state-item" data-state="grace-period">
+            <span class="dot dot-green"></span>
+            <span class="state-text">
+              <strong>Grace period</strong>
+              <small>Full access, countdown banner</small>
+            </span>
+          </button>
+          <button class="state-item" data-state="soft-block">
+            <span class="dot dot-yellow"></span>
+            <span class="state-text">
+              <strong>Soft block</strong>
+              <small>Restricted, persistent warning</small>
+            </span>
+          </button>
+          <button class="state-item" data-state="hard-block">
+            <span class="dot dot-red"></span>
+            <span class="state-text">
+              <strong>Hard block</strong>
+              <small>Blocked, minimal access</small>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="control-group legend">
+        <h3>About this demo</h3>
+        <p>Switch between the <strong>Cashier (POS)</strong> and <strong>Console (Owner)</strong> experiences and step through the four subscription lifecycle states to see how access, banners and CTAs evolve at each stage.</p>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="device" id="device">
+
+        <!-- ===================== CASHIER ===================== -->
+        <div class="screen cashier-screen" data-area-screen="cashier">
+          <div class="app-shell">
+            <div class="app-topbar">
+              <div class="app-topbar-left">
+                <span class="app-dot"></span>
+                <span>Foodics POS</span>
+              </div>
+              <div class="app-topbar-right">
+                <span class="cashier-name">Sara A. · Cashier</span>
+              </div>
+            </div>
+
+            <!-- Banner -->
+            <div class="banner" id="cashier-banner"></div>
+
+            <!-- Body -->
+            <div class="app-body">
+              <div class="pos-grid" id="cashier-pos-grid">
+                <div class="pos-products">
+                  <div class="pos-card"></div>
+                  <div class="pos-card"></div>
+                  <div class="pos-card"></div>
+                  <div class="pos-card"></div>
+                  <div class="pos-card"></div>
+                  <div class="pos-card"></div>
+                </div>
+                <div class="pos-cart">
+                  <div class="pos-cart-title">Current order</div>
+                  <div class="pos-cart-line"></div>
+                  <div class="pos-cart-line"></div>
+                  <div class="pos-cart-line short"></div>
+                  <button class="pos-pay-btn" id="cashier-cta">Charge order</button>
+                </div>
+              </div>
+
+              <!-- Hard block overlay -->
+              <div class="lock-overlay" id="cashier-lock">
+                <div class="lock-card">
+                  <div class="lock-icon">⛔</div>
+                  <h2>POS is locked</h2>
+                  <p>Your subscription payment is overdue. The cashier can no longer process orders.</p>
+                  <button class="lock-secondary-btn" id="cashier-notify-btn">Notify owner that POS is blocked</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== CONSOLE ===================== -->
+        <div class="screen console-screen hidden" data-area-screen="console">
+          <div class="app-shell">
+            <div class="app-topbar app-topbar-dark">
+              <div class="app-topbar-left">
+                <span class="app-dot"></span>
+                <span>Foodics Console</span>
+              </div>
+              <div class="app-topbar-right">
+                <span class="cashier-name">Omar K. · Owner</span>
+              </div>
+            </div>
+
+            <!-- Banner -->
+            <div class="banner" id="console-banner"></div>
+
+            <!-- Body -->
+            <div class="app-body">
+              <div class="console-grid" id="console-main-grid">
+                <nav class="console-nav">
+                  <div class="nav-item nav-active">Dashboard</div>
+                  <div class="nav-item">Orders</div>
+                  <div class="nav-item">Inventory</div>
+                  <div class="nav-item">Reports</div>
+                  <div class="nav-item" id="console-nav-invoices">Invoices &amp; billing</div>
+                  <div class="nav-item" id="console-nav-license">License</div>
+                </nav>
+                <div class="console-content">
+                  <h2 class="console-page-title" id="console-page-title">Dashboard overview</h2>
+                  <div class="kpi-row">
+                    <div class="kpi-card"><span class="kpi-label">Today's sales</span><span class="kpi-value">SAR 12,480</span></div>
+                    <div class="kpi-card"><span class="kpi-label">Orders</span><span class="kpi-value">214</span></div>
+                    <div class="kpi-card"><span class="kpi-label">Avg. ticket</span><span class="kpi-value">SAR 58.3</span></div>
+                  </div>
+                  <div class="placeholder-block"></div>
+                  <div class="placeholder-block short"></div>
+
+                  <!-- CTA area changes per state -->
+                  <div class="console-cta-zone" id="console-cta-zone"></div>
+                </div>
+              </div>
+
+              <!-- Restricted overlay (soft/hard block on console) -->
+              <div class="lock-overlay" id="console-lock">
+                <div class="lock-card">
+                  <div class="lock-icon" id="console-lock-icon">🔒</div>
+                  <h2 id="console-lock-title">Access restricted</h2>
+                  <p id="console-lock-desc">Most of the Console is unavailable. Settle your subscription invoice to restore full access.</p>
+                  <button class="lock-primary-btn" id="console-lock-cta">Go to invoices</button>
+
+                  <div class="unblock-widget" id="unblock-widget"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="stage-caption" id="stage-caption"></p>
+    </section>
+  </main>
+
+  <script src="states.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
