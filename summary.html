@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foodics RMS — Subscription Lifecycle States | Summary</title>
+<style>
+  :root {
+    --foodics-primary: #6C2BD9;
+    --foodics-primary-dark: #5521B5;
+    --ink: #1F1233;
+    --ink-soft: #6B6478;
+    --bg: #F5F3FA;
+    --border: #E6E1F2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .topbar {
+    background: linear-gradient(135deg, var(--foodics-primary) 0%, var(--foodics-primary-dark) 100%);
+    color: #fff;
+    padding: 22px 28px;
+  }
+  .topbar h1 { margin: 0; font-size: 20px; }
+  .topbar p { margin: 4px 0 0; font-size: 13.5px; opacity: 0.85; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 24px 60px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+  }
+  .card h2 { margin: 0 0 10px; font-size: 16px; }
+  .card p { margin: 0 0 8px; font-size: 14px; color: var(--ink-soft); }
+  .card a {
+    display: inline-block;
+    margin-top: 6px;
+    color: var(--foodics-primary);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .card a:hover { text-decoration: underline; }
+
+  .states { display: flex; flex-direction: column; gap: 10px; }
+  .state-row {
+    display: flex; align-items: center; gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot-blue { background: #1E4FB8; }
+  .dot-green { background: #1F8A4C; }
+  .dot-yellow { background: #8A6A12; }
+  .dot-red { background: #B42323; }
+  .state-row strong { font-size: 14px; }
+  .state-row span { font-size: 13px; color: var(--ink-soft); }
+
+  .areas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .area-box { flex: 1; min-width: 260px; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .area-box h3 { margin: 0 0 6px; font-size: 14px; }
+  .area-box p { margin: 0; font-size: 13px; }
+
+  ol { margin: 0; padding-left: 20px; font-size: 14px; color: var(--ink-soft); }
+  ol li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>Foodics RMS — Subscription Lifecycle States</h1>
+    <p>Interactive demo summary — for design review</p>
+  </div>
+
+  <div class="wrap">
+
+    <div class="card">
+      <h2>What this is</h2>
+      <p>A small interactive demo showing how the Foodics POS (Cashier) and Console (Owner) experiences change as a merchant moves through 4 subscription lifecycle states — from healthy to fully blocked.</p>
+      <a href="https://aml7babikir.github.io/foodics-rms-states-demo/" target="_blank">→ Open the live demo</a>
+    </div>
+
+    <div class="card">
+      <h2>Two experiences</h2>
+      <div class="areas">
+        <div class="area-box">
+          <h3>🧾 Cashier (POS)</h3>
+          <p>What the cashier sees while operating the till — banners, charge button, and lock screen.</p>
+        </div>
+        <div class="area-box">
+          <h3>🖥️ Console (Owner)</h3>
+          <p>What the owner sees in the back office — banners, navigation, restricted overlays, billing CTAs, and an "Unblock" button.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Four states</h2>
+      <div class="states">
+        <div class="state-row">
+          <span class="dot dot-blue"></span>
+          <strong>Pre-notification</strong>
+          <span>— Full access. No banners, no warnings.</span>
+        </div>
+        <div class="state-row">
+          <span class="dot dot-green"></span>
+          <strong>Grace period</strong>
+          <span>— Full access, with a countdown banner reminding the merchant to pay.</span>
+        </div>
+        <div class="state-row">
+          <span class="dot dot-yellow"></span>
+          <strong>Soft block</strong>
+          <span>— Cashier keeps working under a "soft-block" warning treatment; Console is restricted to billing pages only.</span>
+        </div>
+        <div class="state-row">
+          <span class="dot dot-red"></span>
+          <strong>Hard block</strong>
+          <span>— Cashier is fully locked out (can only notify the owner); Console is locked except for the License/payment page.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>The "Unblock" button (Console only)</h2>
+      <p>Shown only in Soft block / Hard block, in the restricted-access overlay. Its behavior changes depending on how many times it's been used:</p>
+      <ol>
+        <li><strong>1st click</strong> — restores full access for 5 days, then the button goes away until needed again.</li>
+        <li><strong>2nd click</strong> — opens a support (SF) request to <strong>Team A</strong>; the button stays disabled until they unblock the account.</li>
+        <li><strong>3rd click</strong> — opens a support (SF) request to <strong>Team B</strong>; the button stays disabled until they unblock the account.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>How to explore it</h2>
+      <p>On the live demo, use the left sidebar to switch between <strong>Cashier / Console</strong> and step through the <strong>4 states</strong>. Click on banners, CTAs, and the lock-screen buttons to see the interactions and messages.</p>
+      <a href="https://aml7babikir.github.io/foodics-rms-states-demo/" target="_blank">→ Open the live demo</a>
+    </div>
+
+  </div>
+</body>
+</html>
