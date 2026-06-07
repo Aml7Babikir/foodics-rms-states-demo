@@ -111,7 +111,9 @@ const STATES = {
 //   0, 2, 4 -> an actionable "Unblock now" button (1st, 2nd, 3rd use)
 //   1       -> 1st use granted: 5 days of normal access, confirmation shown
 //   3       -> 2nd use: SF request sent to Team A, button disabled until they act
-//   5       -> 3rd use: SF request sent to Team B, button disabled until they act (then cycle repeats)
+//   5       -> 3rd use: SF request sent to Team B, button disabled until they act
+//   6       -> all self-service unblocks exhausted: button is gone for good,
+//              the merchant must pay the invoice to restore access
 const UNBLOCK_STAGES = [
   {
     type: "action",
@@ -158,8 +160,14 @@ const UNBLOCK_STAGES = [
     icon: "⏳",
     text: "An SF request is with Team B. The button stays disabled until they unblock the account.",
     simulateLabel: "Simulate: Team B unblocks the account",
-    simulateFlash: "🔓 Team B resolved the SF request — account unblocked. Cycle restarts.",
-    next: 0,
+    simulateFlash: "🔓 Team B resolved the SF request — account unblocked.",
+    next: 6,
+  },
+  {
+    type: "exhausted",
+    tone: "pending",
+    icon: "🚫",
+    text: "All self-service unblock options have been used. The merchant must settle the outstanding invoice to restore access — no more unblock requests can be made from here.",
   },
 ];
 

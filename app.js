@@ -52,6 +52,17 @@
       note.className = "unblock-note";
       note.textContent = stage.note;
       el.appendChild(note);
+    } else if (stage.type === "exhausted") {
+      const status = document.createElement("div");
+      status.className = "unblock-status tone-" + stage.tone;
+      status.innerHTML = "<span>" + stage.icon + "</span><span>" + stage.text + "</span>";
+      el.appendChild(status);
+
+      const payBtn = document.createElement("button");
+      payBtn.className = "unblock-btn";
+      payBtn.textContent = "Pay invoice now";
+      payBtn.addEventListener("click", () => handleAction("invoices"));
+      el.appendChild(payBtn);
     } else {
       const status = document.createElement("div");
       status.className = "unblock-status tone-" + stage.tone;
