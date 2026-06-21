@@ -1,10 +1,11 @@
-// Definitions for the 4 RMS subscription lifecycle states, per experience (cashier / console).
-// Mirrors the product spec: Pre-notification -> Grace period -> Soft block -> Hard block.
+// Definitions for the 5 RMS subscription lifecycle states, per experience (cashier / console).
+// Mirrors the product spec:
+//   Pre-notification -> Pre-renewal -> Grace period -> Soft block -> Hard block.
 
 const STATES = {
   "pre-notification": {
     label: "Pre-notification",
-    caption: "Subscription is healthy and far from its renewal date. No banners, no restrictions — business as usual.",
+    caption: "Subscription is healthy and far from its renewal date. Full access for both Cashier and Console — no banners, no warnings, business as usual.",
     cashier: {
       banner: null,
       access: "full",
@@ -17,14 +18,45 @@ const STATES = {
     }
   },
 
-  "grace-period": {
-    label: "Grace period",
-    caption: "Payment date is approaching. Both experiences keep full access but surface a countdown banner with the same CTA logic: pay if permitted, otherwise notify someone who can.",
+  "pre-renewal": {
+    label: "Pre-renewal",
+    caption: "Payment date is approaching. Both experiences keep full access but show a countdown banner reminding the merchant to pay soon — pay if permitted, otherwise notify someone who can.",
     cashier: {
       banner: {
         tone: "blue",
         icon: "⏳",
-        html: "<strong>3 days left</strong> until your subscription payment is due — full access continues during this period.",
+        html: "<strong>3 days left</strong> until your subscription payment is due — full access continues. Ask the owner to settle the invoice in time.",
+        cta: { label: "Notify owner", action: "notify" }
+      },
+      access: "full",
+      cta: { label: "Charge order", mode: "normal" }
+    },
+    console: {
+      banner: {
+        tone: "blue",
+        icon: "⏳",
+        html: "<strong>3 days left</strong> until your subscription payment is due. Pay now to avoid any interruption.",
+        cta: { label: "Pay now", action: "invoices" }
+      },
+      access: "full",
+      cta: {
+        tone: "blue",
+        title: "Renewal due in 3 days",
+        body: "Settle the upcoming invoice now to keep uninterrupted access for your whole team.",
+        button: "Go to invoices",
+        action: "invoices"
+      }
+    }
+  },
+
+  "grace-period": {
+    label: "Grace period",
+    caption: "Payment is overdue and the merchant is in the grace period. Both experiences keep full access but show a countdown banner reminding the merchant to pay soon — pay if permitted, otherwise notify someone who can.",
+    cashier: {
+      banner: {
+        tone: "green",
+        icon: "⏳",
+        html: "<strong>Payment overdue.</strong> You have <strong>3 days left</strong> of grace-period access. Ask the owner to settle the invoice before it ends.",
         cta: { label: "Notify owner", action: "notify" }
       },
       access: "full",
@@ -34,14 +66,14 @@ const STATES = {
       banner: {
         tone: "green",
         icon: "⏳",
-        html: "<strong>3 days left</strong> until your subscription payment is due. Renew now to avoid any interruption.",
+        html: "<strong>Payment overdue.</strong> You have <strong>3 days left</strong> of grace-period access. Pay now to avoid interruption.",
         cta: { label: "Pay now", action: "invoices" }
       },
       access: "full",
       cta: {
         tone: "green",
-        title: "Renewal due in 3 days",
-        body: "Settle the upcoming invoice now to keep uninterrupted access for your whole team.",
+        title: "Grace period — 3 days left",
+        body: "Your payment is overdue but full access continues for now. Settle the invoice before the grace period ends.",
         button: "Go to invoices",
         action: "invoices"
       }
@@ -50,7 +82,7 @@ const STATES = {
 
   "soft-block": {
     label: "Soft block",
-    caption: "Payment is overdue. The cashier keeps operating with a clear soft-blocking visual treatment (gray theme, red persistent banner, reminder touchpoints). The console is restricted to invoices and unblocking flows.",
+    caption: "Payment is far overdue and the grace period is over. The cashier can still process orders but sees a persistent warning banner with a soft-blocked visual treatment. The console becomes restricted — most pages are locked except Invoices/billing and unblocking-related areas.",
     cashier: {
       banner: {
         tone: "yellow",
@@ -172,4 +204,4 @@ const UNBLOCK_STAGES = [
 ];
 
 const AREAS = ["cashier", "console"];
-const STATE_ORDER = ["pre-notification", "grace-period", "soft-block", "hard-block"];
+const STATE_ORDER = ["pre-notification", "pre-renewal", "grace-period", "soft-block", "hard-block"];
